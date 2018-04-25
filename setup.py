@@ -39,27 +39,32 @@ def discover_tests():
     )
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
 
     setuptools.setup(
-        name="pluckit",
+        name='pluckit',
         version=__version__,
-        url="https://github.com/dpep/py_pluckit",
-        license="MIT",
-        author="Daniel Pepper",
-        description="pluck it all",
+        url='https://github.com/dpep/py_pluckit',
+        license='MIT',
+        author='Daniel Pepper',
+        description='pluck it all',
         long_description=open('README.md').read(),
-        platforms="any",
+        platforms='any',
 
         packages=[
-            "pluckit",
+            'pluckit',
         ],
+
         test_suite = 'setup.discover_tests',
+        tests_require = [
+            'forbiddenfruit',
+            'unittest',
+        ],
 
         # https://pypi.python.org/pypi?%3Aaction=list_classifiers
         classifiers=[
-            "License :: OSI Approved :: MIT License",
-            "Programming Language :: Python",
-            "Topic :: Utilities",
+            'License :: OSI Approved :: MIT License',
+            'Programming Language :: Python',
+            'Topic :: Utilities',
         ],
     )
