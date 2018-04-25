@@ -86,7 +86,7 @@ def __pluck_single(obj, handle):
         return attr
 
     # list-like index
-    if hasattr(obj, '__getitem__'):
+    if hasattr(obj, '__getitem__') and isinstance(handle, int):
         return obj[handle]
 
     raise TypeError('invalid handle: %s' % handle)
