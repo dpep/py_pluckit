@@ -13,14 +13,14 @@ class PList(list, Pluckable): pass
 class ArrayTest(unittest.TestCase):
     def test_basic(self):
         data = PList([
-            {'k': 1},
-            {'k': 2},
-            {'k': 3},
+            {'x': 1, 'y': 2},
+            {'x': 2, 'y': 4},
+            {'x': 3, 'y': 6},
         ])
 
         self.assertEquals(
             [1, 2, 3],
-            data.pluck('k')
+            data.pluck('x')
         )
 
 
