@@ -24,7 +24,13 @@ def pluck(collection, *handles):
             clone = copy(collection)
             clone.clear()
 
-        clone.update({ pluckit(x, *handles) for x in collection })
+        if len(handles) <= 1:
+            res = { pluckit(x, *handles) for x in collection }
+        else:
+            # lists are unhashable, so cast to a tuple
+            res = { tuple(pluckit(x, *handles)) for x in collection }
+
+        clone.update(res)
         return clone
 
     if isinstance(collection, list) or hasattr(collection, '__iter__'):
