@@ -12,16 +12,6 @@ __all__ = [ 'Pluckable', 'pluckit' ]
 
 class Pluckable():
     def pluck(self, *handles):
-        if isinstance(self, list):
-            if type(self) == list:
-                clone = []
-            else:
-                clone = copy(self)
-                [ clone.pop() for x in xrange(len(clone)) ]
-
-            clone += [ pluckit(x, *handles) for x in self ]
-            return clone
-
         if isinstance(self, dict):
             # use empty clone so we preserve class properties
             if type(self) == dict:
@@ -43,6 +33,22 @@ class Pluckable():
                 clone.clear()
 
             clone.update({ pluckit(x, *handles) for x in self })
+            return clone
+
+        if isinstance(self, list) or hasattr(self, '__iter__'):
+            # list or list like
+
+            if type(self) == list:
+                clone = []
+            elif hasattr(self, '__delslice__') or hasattr(self, 'delslice'):
+                # clone and clear
+                clone = copy(self)
+                del clone[0:]
+            else:
+                # fall back to regular list
+                clone = []
+
+            clone += [ pluckit(x, *handles) for x in self ]
             return clone
 
         raise TypeError('unpluckable type: %s' % type(self))
