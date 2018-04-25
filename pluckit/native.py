@@ -20,17 +20,24 @@ except ImportError:
 __all__ = [ 'install', 'uninstall' ]
 
 
-types = [ dict, list, set ]
+cursed_types = set()
 
-def install():
+def install(types):
     for _type in types:
-      forbiddenfruit.curse(_type, 'pluck', pluck)
+        forbiddenfruit.curse(_type, 'pluck', pluck)
+        cursed_types.add(_type)
 
 
-def uninstall():
+def uninstall(types = None):
+    if types is None:
+        # uninstall everything
+        types = list(cursed_types)
+
     for _type in types:
-      forbiddenfruit.reverse(_type, 'pluck')
+        forbiddenfruit.reverse(_type, 'pluck')
+        cursed_types.remove(_type)
+
 
 
 # wire it up
-install()
+install([ dict, list, set ])
