@@ -78,7 +78,6 @@ def __pluck_single(obj, handle):
         if isinstance(attr, (
             BuiltinFunctionType, BuiltinMethodType,
             FunctionType, MethodType,
-            property
         )):
             # use method's return value
             return attr()
