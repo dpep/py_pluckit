@@ -24,7 +24,27 @@ def pluckit(obj, *handles):
 
 class Pluckable():
     def pluck(self, *handles):
-        return pluckit(self, *handles)
+        if issubclass(self.__class__, list):
+            return self.__class__(
+                [ pluckit(x, *handles) for x in self ]
+            )
+
+        if issubclass(self.__class__, dict):
+            # use empty clone so we preserve class properties
+            clone = self.copy()
+            clone.clear()
+            clone.update(
+                { k : pluckit(v, *handles) for k,v in self.items() }
+            )
+            return clone
+
+        if issubclass(self.__class__, set):
+            clone = self.copy()
+            clone.clear()
+            clone.update({ pluckit(x, *handles) for x in self })
+            return clone
+
+        raise TypeError('unpluckable type: %s' % type(self))
 
 
 def __pluck_single(obj, handle):
