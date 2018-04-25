@@ -12,7 +12,7 @@ __all__ = [ 'pluckit', 'Pluckable' ]
 
 class Pluckable():
     def pluck(self, *handles):
-        if issubclass(self.__class__, list):
+        if isinstance(self, list):
             if type(self) == list:
                 clone = []
             else:
@@ -22,7 +22,7 @@ class Pluckable():
             clone += [ pluckit(x, *handles) for x in self ]
             return clone
 
-        if issubclass(self.__class__, dict):
+        if isinstance(self, dict):
             # use empty clone so we preserve class properties
             if type(self) == dict:
                 clone = {}
@@ -35,7 +35,7 @@ class Pluckable():
             )
             return clone
 
-        if issubclass(self.__class__, set):
+        if isinstance(self, set):
             if type(self) == set:
                 clone = set()
             else:
