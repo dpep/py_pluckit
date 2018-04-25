@@ -6,7 +6,7 @@ from copy import copy
 from types import *
 
 
-__all__ = [ 'pluckit', 'Pluckable' ]
+__all__ = [ 'Pluckable', 'pluckit' ]
 
 
 
