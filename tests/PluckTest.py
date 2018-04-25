@@ -5,7 +5,7 @@ import sys
 import unittest
 
 sys.path = [ os.path.abspath(os.path.join(os.path.dirname(__file__), '..')) ] + sys.path
-from pluckit import pluckit
+from pluckit.pluckit import pluckit
 
 
 class PluckTest(unittest.TestCase):
