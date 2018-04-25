@@ -35,6 +35,30 @@ class SetTest(unittest.TestCase):
         )
 
 
+    def test_clone(self):
+        class MySet(PSet, object):
+            def __init__(self, val): self.val = val
+
+        data = MySet(123)
+        data.update({1, 2, 3})
+
+        self.assertEquals(123, data.val)
+
+        self.assertEquals(
+            {'1', '2', '3'},
+            data.pluck(str)
+        )
+
+        self.assertEquals(
+            MySet,
+            type(data.pluck(str))
+        )
+
+        self.assertEquals(
+            123,
+            data.pluck(str).val
+        )
+
 
 if __name__ == '__main__':
     unittest.main()

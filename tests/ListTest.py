@@ -66,5 +66,25 @@ class ArrayTest(unittest.TestCase):
         )
 
 
+    def test_clone(self):
+        class MyList(PList, object):
+            def __init__(self, val): self.val = val
+
+        data = MyList(123)
+        data += [1, 2, 3]
+
+        self.assertEquals(
+            MyList,
+            type(data)
+        )
+        self.assertEquals(123, data.val)
+
+        self.assertEquals(
+            MyList,
+            type(data.pluck(str))
+        )
+        self.assertEquals(123, data.pluck(str).val)
+
+
 if __name__ == '__main__':
     unittest.main()
