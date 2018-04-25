@@ -47,7 +47,7 @@ if __name__ == '__main__':
         url='https://github.com/dpep/py_pluckit',
         license='MIT',
         author='Daniel Pepper',
-        description='pluck it all',
+        description='extract values from collection items',
         long_description=open('README.md').read(),
         platforms='any',
 
