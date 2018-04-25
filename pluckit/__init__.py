@@ -10,19 +10,6 @@ __all__ = [ 'pluckit', 'Pluckable' ]
 
 
 
-def pluckit(obj, *handles):
-    if obj == None:
-        raise ValueError("there's nothing to pluck")
-
-    if len(handles) == 0:
-        raise ValueError("you've got to pluck something")
-
-    if len(handles) == 1:
-        return __pluck_single(obj, handles[0])
-    else:
-        return [ __pluck_single(obj, handle) for handle in handles ]
-
-
 class Pluckable():
     def pluck(self, *handles):
         if issubclass(self.__class__, list):
@@ -59,6 +46,19 @@ class Pluckable():
             return clone
 
         raise TypeError('unpluckable type: %s' % type(self))
+
+
+def pluckit(obj, *handles):
+    if obj == None:
+        raise ValueError("there's nothing to pluck")
+
+    if len(handles) == 0:
+        raise ValueError("you've got to pluck something")
+
+    if len(handles) == 1:
+        return __pluck_single(obj, handles[0])
+    else:
+        return [ __pluck_single(obj, handle) for handle in handles ]
 
 
 def __pluck_single(obj, handle):
