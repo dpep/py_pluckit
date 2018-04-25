@@ -1,9 +1,9 @@
 # Packages
+.eggs
 *.egg
 *.egg-info
 build
 dist
-eggs
 sdist
 
 *.pyc
