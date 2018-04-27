@@ -5,10 +5,10 @@ from .pluckit import pluckit
 
 def pluck(collection, *handles):
     if isinstance(collection, dict):
-        # use empty clone so we preserve class properties
         if type(collection) == dict:
             clone = {}
         else:
+            # preserve class type and attributes
             clone = copy(collection)
             clone.clear()
 
@@ -21,6 +21,7 @@ def pluck(collection, *handles):
         if type(collection) == set:
             clone = set()
         else:
+            # preserve class type and attributes
             clone = copy(collection)
             clone.clear()
 
@@ -39,7 +40,7 @@ def pluck(collection, *handles):
         if type(collection) == list:
             clone = []
         elif hasattr(collection, '__delslice__') or hasattr(collection, 'delslice'):
-            # clone and clear
+            # preserve class type and attributes
             clone = copy(collection)
             del clone[0:]
         else:
