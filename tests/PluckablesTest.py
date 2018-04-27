@@ -78,6 +78,12 @@ class PluckablesTest(unittest.TestCase):
             data.pluck('x')
         )
 
+        # type is preserved
+        self.assertEquals(
+            PluckableSet,
+            type(data.pluck('x'))
+        )
+
 
 if __name__ == '__main__':
     unittest.main()

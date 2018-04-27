@@ -19,6 +19,10 @@ class MixinTest(unittest.TestCase):
         data += [1, 2, 3]
 
         self.assertEquals(
+            [1, 2, 3],
+            data
+        )
+        self.assertEquals(
             MyList,
             type(data)
         )
