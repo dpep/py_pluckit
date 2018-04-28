@@ -135,6 +135,13 @@ class PluckTest(unittest.TestCase):
         )
 
 
+    def test_tuple(self):
+        data = (1, 2, 3)
+
+        self.assertEquals(1, pluckit(data, 0))
+        self.assertEquals(3, pluckit(data, len))
+
+
     def test_none(self):
         self.assertEquals(None, pluckit(None, 'abc'))
         self.assertEquals(None, pluckit(None, 123))

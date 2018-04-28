@@ -64,6 +64,18 @@ class NativeTest(unittest.TestCase):
         )
 
 
+    def test_tuple(self):
+        data = (
+            (1, 2),
+            (3, 4),
+        )
+
+        self.assertEquals(
+            (3, 7),
+            data.pluck(sum)
+        )
+
+
 
 
 if __name__ == '__main__':

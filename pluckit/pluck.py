@@ -35,6 +35,12 @@ def pluck(collection, handle):
         clone.update({ pluckit(x, handle) for x in collection })
         return clone
 
+    if isinstance(collection, tuple):
+        # can't clone, but use same class as return type
+        return collection.__class__(
+            [ pluckit(x, handle) for x in collection ]
+        )
+
     if isinstance(collection, list) or hasattr(collection, '__iter__'):
         # list or list like
 

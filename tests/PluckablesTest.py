@@ -7,7 +7,7 @@ import unittest
 from collections import namedtuple
 
 sys.path = [ os.path.abspath(os.path.join(os.path.dirname(__file__), '..')) ] + sys.path
-from pluckit.pluckable import PluckableList, PluckableDict, PluckableSet
+from pluckit.pluckable import *
 
 
 class PluckablesTest(unittest.TestCase):
@@ -69,6 +69,25 @@ class PluckablesTest(unittest.TestCase):
             PluckableSet,
             type(data.pluck('x'))
         )
+
+
+    def test_tuple(self):
+        data = PluckableTuple([
+            (1, 2),
+            (3, 4),
+        ])
+
+        self.assertEquals(
+            (3, 7),
+            data.pluck(sum)
+        )
+
+        # type is preserved
+        self.assertEquals(
+            PluckableTuple,
+            type(data.pluck(sum))
+        )
+
 
 
 if __name__ == '__main__':

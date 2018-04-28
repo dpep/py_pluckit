@@ -6,6 +6,7 @@ __all__ = [
   'PluckableList',
   'PluckableDict',
   'PluckableSet',
+  'PluckableTuple',
 ]
 
 
@@ -17,3 +18,4 @@ class Pluckable():
 class PluckableList(list, Pluckable): pass
 class PluckableDict(dict, Pluckable): pass
 class PluckableSet(set, Pluckable): pass
+class PluckableTuple(tuple, Pluckable): pass

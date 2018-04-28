@@ -40,4 +40,4 @@ def uninstall(types = None):
 
 
 # wire it up
-install([ dict, list, set ])
+install([ dict, list, set, tuple ])
