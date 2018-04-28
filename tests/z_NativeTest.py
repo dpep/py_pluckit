@@ -1,5 +1,13 @@
 #!/usr/bin/python
 
+"""
+Make native list / dict / set pluckable
+
+Warning: This test must run last because it's modification
+of builtin types will effect other tests, hence the z_ prefix
+in it's file name.
+"""
+
 import os
 import sys
 import unittest
