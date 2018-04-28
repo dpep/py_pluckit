@@ -28,9 +28,9 @@ def __pluck_single(obj, handle):
 
     # object attribute or class method
     if type(handle) == str and hasattr(obj, handle):
-        # make sure it's a class method, not a legit returned callable
         attr = getattr(obj, handle)
 
+        # make sure it's a class method, not a legit returned callable
         if isinstance(attr, (
             BuiltinFunctionType, BuiltinMethodType,
             FunctionType, MethodType,
