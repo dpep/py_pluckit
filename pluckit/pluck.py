@@ -3,7 +3,10 @@ from copy import copy
 from .pluckit import pluckit
 
 
-def pluck(collection, *handles):
+__all__ = [ 'pluck' ]
+
+
+def pluck(collection, handle):
     if collection is None:
         # nothing to pluck
         return None
@@ -17,7 +20,7 @@ def pluck(collection, *handles):
             clone.clear()
 
         clone.update(
-            { k : pluckit(v, *handles) for k,v in collection.items() }
+            { k : pluckit(v, handle) for k,v in collection.items() }
         )
         return clone
 
@@ -29,13 +32,7 @@ def pluck(collection, *handles):
             clone = copy(collection)
             clone.clear()
 
-        if len(handles) <= 1:
-            res = { pluckit(x, *handles) for x in collection }
-        else:
-            # lists are unhashable, so cast to a tuple
-            res = { tuple(pluckit(x, *handles)) for x in collection }
-
-        clone.update(res)
+        clone.update({ pluckit(x, handle) for x in collection })
         return clone
 
     if isinstance(collection, list) or hasattr(collection, '__iter__'):
@@ -51,7 +48,7 @@ def pluck(collection, *handles):
             # fall back to regular list
             clone = []
 
-        clone += [ pluckit(x, *handles) for x in collection ]
+        clone += [ pluckit(x, handle) for x in collection ]
         return clone
 
     raise TypeError('unpluckable type: %s' % type(collection))

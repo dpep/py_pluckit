@@ -32,11 +32,6 @@ class ArrayTest(unittest.TestCase):
             pluck(data, 0)
         )
 
-        self.assertEquals(
-            [ [ 0, 1 ], [ 5, 6 ] ],
-            pluck(data, 0, 1)
-        )
-
 
     def test_fn(self):
         # build-in

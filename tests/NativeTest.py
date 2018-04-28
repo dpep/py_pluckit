@@ -23,11 +23,6 @@ class NativeTest(unittest.TestCase):
             data.pluck('x')
         )
 
-        self.assertEquals(
-            [ [1, 2], [2, 4], [3, 6] ],
-            data.pluck('x', 'y')
-        )
-
 
     def test_dict(self):
         data = {
@@ -43,15 +38,6 @@ class NativeTest(unittest.TestCase):
                 'c': 6,
             },
             data.pluck('v')
-        )
-
-        self.assertEquals(
-            {
-                'a': [ 1, 2 ],
-                'b': [ 3, 4 ],
-                'c': [ 5, 6 ],
-            },
-            data.pluck('k', 'v')
         )
 
 

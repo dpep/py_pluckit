@@ -39,11 +39,6 @@ class PluckTest(unittest.TestCase):
             pluckit(data, lambda x: sum(x))
         )
 
-        self.assertEquals(
-            [ 2, 1 ],
-            pluckit(data, 2, 1),
-        )
-
 
     def test_dict(self):
         abc = { 'a' : 1, 'b' : 2, 'c' : 3 }
@@ -59,11 +54,6 @@ class PluckTest(unittest.TestCase):
         self.assertEquals(
             3,
             pluckit(abc, len)
-        )
-
-        self.assertEquals(
-            [ 1, 2 ],
-            pluckit(abc, 'a', 'b')
         )
 
 
@@ -144,14 +134,8 @@ class PluckTest(unittest.TestCase):
             pluckit(Foo, '__name__')
         )
 
-        self.assertEquals(
-            [ 'Foo', 123 ],
-            pluckit(Foo, '__name__', 'CONST')
-        )
-
 
     def test_none(self):
-        self.assertEquals(None, pluckit(None))
         self.assertEquals(None, pluckit(None, 'abc'))
         self.assertEquals(None, pluckit(None, 123))
         self.assertEquals(None, pluckit(None, str))

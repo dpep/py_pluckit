@@ -4,22 +4,11 @@ from types import *
 __all__ = [ 'pluckit' ]
 
 
-def pluckit(obj, *handles):
-    if obj == None:
+def pluckit(obj, handle):
+    if obj is None or handle is None:
         # None has nothing to pluck...
-        return None
-
-    if len(handles) == 0:
-        # they don't want to pluck anything?
         return obj
 
-    if len(handles) == 1:
-        return __pluck_single(obj, handles[0])
-
-    return [ __pluck_single(obj, handle) for handle in handles ]
-
-
-def __pluck_single(obj, handle):
     # function pointer
     if callable(handle):
         return handle(obj)

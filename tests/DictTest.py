@@ -25,15 +25,6 @@ class DictTest(unittest.TestCase):
             pluck(data, 'v')
         )
 
-        self.assertEquals(
-            {
-                'a': [ 1, 2 ],
-                'b': [ 3, 4 ],
-                'c': [ 5, 6 ],
-            },
-            pluck(data, 'k', 'v')
-        )
-
 
     def test_indicies(self):
         data = {

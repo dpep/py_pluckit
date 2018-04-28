@@ -26,11 +26,6 @@ class SetTest(unittest.TestCase):
             pluck(data, 'x')
         )
 
-        self.assertEquals(
-            { (1, 2), (2, 4), (3, 6) },
-            pluck(data, 'x', 'y')
-        )
-
 
 
 if __name__ == '__main__':
