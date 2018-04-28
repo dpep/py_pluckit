@@ -6,15 +6,17 @@ __all__ = [ 'pluckit' ]
 
 def pluckit(obj, *handles):
     if obj == None:
-        raise ValueError("there's nothing to pluck")
+        # None has nothing to pluck...
+        return None
 
     if len(handles) == 0:
-        raise ValueError("you've got to pluck something")
+        # they don't want to pluck anything?
+        return obj
 
     if len(handles) == 1:
         return __pluck_single(obj, handles[0])
-    else:
-        return [ __pluck_single(obj, handle) for handle in handles ]
+
+    return [ __pluck_single(obj, handle) for handle in handles ]
 
 
 def __pluck_single(obj, handle):

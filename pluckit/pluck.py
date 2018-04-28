@@ -4,6 +4,10 @@ from .pluckit import pluckit
 
 
 def pluck(collection, *handles):
+    if collection is None:
+        # nothing to pluck
+        return None
+
     if isinstance(collection, dict):
         if type(collection) == dict:
             clone = {}

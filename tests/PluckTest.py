@@ -150,6 +150,17 @@ class PluckTest(unittest.TestCase):
         )
 
 
+    def test_none(self):
+        self.assertEquals(None, pluckit(None))
+        self.assertEquals(None, pluckit(None, 'abc'))
+        self.assertEquals(None, pluckit(None, 123))
+        self.assertEquals(None, pluckit(None, str))
+
+        def explode():
+            raise Exception('this should never execute')
+        self.assertEquals(None, pluckit(None, explode))
+
+
 
 if __name__ == '__main__':
     unittest.main()

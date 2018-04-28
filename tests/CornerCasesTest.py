@@ -11,7 +11,7 @@ from pluckit import pluck
 
 
 class CornerCasesTest(unittest.TestCase):
-    def test_empty_handle(self):
+    def test_null_handle(self):
         data = {
             'a' : [1, 2],
             'b' : [3, 4],
@@ -30,34 +30,32 @@ class CornerCasesTest(unittest.TestCase):
 
 
 
-    # def test_noop(self):
-    #     data = [1, 2, 3]
+    def test_noop(self):
+        data = [1, 2, 3]
+        self.assertEquals(data, pluck(data))
 
-    #     self.assertEquals(data, pluck(data))
+        data = {'a' : 1, 'b' : 2}
+        self.assertEquals(data, pluck(data))
 
 
-    # def test_null(self):
-    #     data = {
-    #         None : [1, 2],
-    #         'b' : [3, 4],
-    #         'c' : [None, 5]
-    #     }
-    #     self.assertEquals(
-    #         {
-    #             None : 2,
-    #             'b' : 4,
-    #             'c' : 5,
-    #         },
-    #         data.rekey(None, 1)
-    #     )
-    #     self.assertEquals(
-    #         {
-    #             1 : 2,
-    #             3 : 4,
-    #             None : 5
-    #         },
-    #         data.rekey(0, 1)
-    #     )
+    def test_none(self):
+        self.assertEquals(None, pluck(None))
+        self.assertEquals(None, pluck(None, 123))
+        self.assertEquals(None, pluck(None, None))
+
+        data = {
+            None : [1, 2],
+            'b' : [3, 4],
+            'c' : [None, 5]
+        }
+        self.assertEquals(
+            {
+                None : 1,
+                'b' : 3,
+                'c' : None,
+            },
+            pluck(data, 0)
+        )
 
 
 
