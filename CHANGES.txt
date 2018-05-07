@@ -1,3 +1,5 @@
+v0.5.0, 2018-05-07
+    37abb03 remove fancy return type cloning because its causing too much trouble...just return basic types
 v0.4.1, 2018-04-30
     fd4e5e2 make importing easier
 v0.4.0, 2018-04-27
