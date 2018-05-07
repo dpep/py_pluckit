@@ -29,21 +29,6 @@ class TupleTest(unittest.TestCase):
         )
 
 
-    def test_custom_class(self):
-        class MyTuple(tuple): pass
-
-        data = MyTuple([
-            [ 1, 2 ],
-            [ 3, 4 ],
-        ])
-
-        res = pluck(data, 0)
-        self.assertEquals((1, 3), res)
-
-        # type is preserved
-        self.assertEquals(MyTuple, type(res))
-
-
 
 if __name__ == '__main__':
     unittest.main()

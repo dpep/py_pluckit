@@ -24,7 +24,7 @@ class PluckablesTest(unittest.TestCase):
         )
 
         # type is preserved
-        self.assertEquals(PluckableList, type(data.pluck('x')))
+        self.assertIsInstance(data.pluck('x'), list)
 
 
     def test_dict(self):
@@ -44,10 +44,7 @@ class PluckablesTest(unittest.TestCase):
         )
 
         # type is preserved
-        self.assertEquals(
-            PluckableDict,
-            type(data.pluck('v'))
-        )
+        self.assertIsInstance(data.pluck('v'), dict)
 
 
     def test_set(self):
@@ -65,10 +62,7 @@ class PluckablesTest(unittest.TestCase):
         )
 
         # type is preserved
-        self.assertEquals(
-            PluckableSet,
-            type(data.pluck('x'))
-        )
+        self.assertIsInstance(data.pluck('x'), set)
 
 
     def test_tuple(self):
@@ -83,10 +77,7 @@ class PluckablesTest(unittest.TestCase):
         )
 
         # type is preserved
-        self.assertEquals(
-            PluckableTuple,
-            type(data.pluck(sum))
-        )
+        self.assertIsInstance(data.pluck(sum), tuple)
 
 
 
