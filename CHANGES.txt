@@ -1,3 +1,6 @@
+v0.5.1, 2019-01-30
+    553d2e7 python3 ready
+    364be57 s/assertEquals/assertEqual/
 v0.5.0, 2018-05-07
     37abb03 remove fancy return type cloning because its causing too much trouble...just return basic types
 v0.4.1, 2018-04-30
@@ -29,4 +32,4 @@ v0.0.2, 2018-04-25
     e5bf1a7 facilitate Pluackable list/dict/set
     2cc3070 cleanup
 v0.0.1, 2018-04-25
-    
+
