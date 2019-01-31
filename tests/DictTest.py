@@ -16,7 +16,7 @@ class DictTest(unittest.TestCase):
             'c': { 'k': 5, 'v': 6 },
         }
 
-        self.assertEquals(
+        self.assertEqual(
             {
                 'a': 2,
                 'b': 4,
@@ -32,7 +32,7 @@ class DictTest(unittest.TestCase):
             'b': [ 5, 6 ],
         }
 
-        self.assertEquals(
+        self.assertEqual(
             {
                 'a': 1,
                 'b': 6,

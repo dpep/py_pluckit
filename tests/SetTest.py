@@ -21,7 +21,7 @@ class SetTest(unittest.TestCase):
             Coordinate(x=3, y=6),
         }
 
-        self.assertEquals(
+        self.assertEqual(
             {1, 2, 3},
             pluck(data, 'x')
         )

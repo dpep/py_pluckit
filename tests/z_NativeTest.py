@@ -26,7 +26,7 @@ class NativeTest(unittest.TestCase):
             {'x': 3, 'y': 6},
         ]
 
-        self.assertEquals(
+        self.assertEqual(
             [1, 2, 3],
             data.pluck('x')
         )
@@ -39,7 +39,7 @@ class NativeTest(unittest.TestCase):
             'c': { 'k': 5, 'v': 6 },
         }
 
-        self.assertEquals(
+        self.assertEqual(
             {
                 'a': 2,
                 'b': 4,
@@ -58,7 +58,7 @@ class NativeTest(unittest.TestCase):
             Coordinate(x=3, y=6),
         }
 
-        self.assertEquals(
+        self.assertEqual(
             {1, 2, 3},
             data.pluck('x')
         )
@@ -70,7 +70,7 @@ class NativeTest(unittest.TestCase):
             (3, 4),
         )
 
-        self.assertEquals(
+        self.assertEqual(
             (3, 7),
             data.pluck(sum)
         )

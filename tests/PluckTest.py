@@ -12,29 +12,29 @@ class PluckTest(unittest.TestCase):
     def test_list(self):
         data = [ 0, 1, 2, 3 ]
 
-        self.assertEquals(
+        self.assertEqual(
             3,
             pluckit(data, 3),
         )
 
-        self.assertEquals(
+        self.assertEqual(
             list,
             pluckit(data, '__class__'),
         )
 
-        self.assertEquals(4, len(data))
-        self.assertEquals(
+        self.assertEqual(4, len(data))
+        self.assertEqual(
             3,
             pluckit(data, 'pop'),
         )
-        self.assertEquals(3, len(data))
+        self.assertEqual(3, len(data))
 
-        self.assertEquals(
+        self.assertEqual(
             3,
             pluckit(data, len),
         )
 
-        self.assertEquals(
+        self.assertEqual(
             3,  # 0 + 1 + 2
             pluckit(data, lambda x: sum(x))
         )
@@ -43,7 +43,7 @@ class PluckTest(unittest.TestCase):
     def test_dict(self):
         abc = { 'a' : 1, 'b' : 2, 'c' : 3 }
 
-        self.assertEquals(
+        self.assertEqual(
             1,
             pluckit(abc, 'a')
         )
@@ -51,7 +51,7 @@ class PluckTest(unittest.TestCase):
         with self.assertRaises(KeyError):
             pluckit(abc, 'values')
 
-        self.assertEquals(
+        self.assertEqual(
             3,
             pluckit(abc, len)
         )
@@ -60,17 +60,17 @@ class PluckTest(unittest.TestCase):
     def test_set(self):
         data = set([ 1, 2, 3 ])
 
-        self.assertEquals(
+        self.assertEqual(
             3,
             pluckit(data, len)
         )
 
-        self.assertEquals(
+        self.assertEqual(
             6,
             pluckit(data, lambda x: sum(x))
         )
 
-        self.assertEquals(
+        self.assertEqual(
             1,
             pluckit(data, 'pop')
         )
@@ -96,40 +96,40 @@ class PluckTest(unittest.TestCase):
             CONST = 123
 
 
-        self.assertEquals(
+        self.assertEqual(
             'foo',
             pluckit(Foo(), 'foo')
         )
 
-        self.assertEquals(
+        self.assertEqual(
             'bar',
             pluckit(Foo, 'bar')
         )
-        self.assertEquals(
+        self.assertEqual(
             'bar',
             pluckit(Foo(), 'bar')
         )
 
-        self.assertEquals(
+        self.assertEqual(
             'baz',
             pluckit(Foo, 'baz')
         )
-        self.assertEquals(
+        self.assertEqual(
             'baz',
             pluckit(Foo(), 'baz')
         )
 
-        self.assertEquals(
+        self.assertEqual(
             'abc',
             pluckit(Foo(), 'prop')
         )
 
-        self.assertEquals(
+        self.assertEqual(
             123,
             pluckit(Foo, 'CONST')
         )
 
-        self.assertEquals(
+        self.assertEqual(
             'Foo',
             pluckit(Foo, '__name__')
         )
@@ -138,18 +138,18 @@ class PluckTest(unittest.TestCase):
     def test_tuple(self):
         data = (1, 2, 3)
 
-        self.assertEquals(1, pluckit(data, 0))
-        self.assertEquals(3, pluckit(data, len))
+        self.assertEqual(1, pluckit(data, 0))
+        self.assertEqual(3, pluckit(data, len))
 
 
     def test_none(self):
-        self.assertEquals(None, pluckit(None, 'abc'))
-        self.assertEquals(None, pluckit(None, 123))
-        self.assertEquals(None, pluckit(None, str))
+        self.assertEqual(None, pluckit(None, 'abc'))
+        self.assertEqual(None, pluckit(None, 123))
+        self.assertEqual(None, pluckit(None, str))
 
         def explode():
             raise Exception('this should never execute')
-        self.assertEquals(None, pluckit(None, explode))
+        self.assertEqual(None, pluckit(None, explode))
 
 
 

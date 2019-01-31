@@ -18,7 +18,7 @@ class PluckablesTest(unittest.TestCase):
             {'x': 3, 'y': 6},
         ])
 
-        self.assertEquals(
+        self.assertEqual(
             [1, 2, 3],
             data.pluck('x')
         )
@@ -34,7 +34,7 @@ class PluckablesTest(unittest.TestCase):
             'c': { 'k': 5, 'v': 6 },
         })
 
-        self.assertEquals(
+        self.assertEqual(
             {
                 'a': 2,
                 'b': 4,
@@ -56,7 +56,7 @@ class PluckablesTest(unittest.TestCase):
             Coordinate(x=3, y=6),
         })
 
-        self.assertEquals(
+        self.assertEqual(
             {1, 2, 3},
             data.pluck('x')
         )
@@ -71,7 +71,7 @@ class PluckablesTest(unittest.TestCase):
             (3, 4),
         ])
 
-        self.assertEquals(
+        self.assertEqual(
             (3, 7),
             data.pluck(sum)
         )

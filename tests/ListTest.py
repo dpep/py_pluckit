@@ -16,7 +16,7 @@ class ArrayTest(unittest.TestCase):
             {'x': 3, 'y': 6},
         ]
 
-        self.assertEquals(
+        self.assertEqual(
             [1, 2, 3],
             pluck(data, 'x')
         )
@@ -27,7 +27,7 @@ class ArrayTest(unittest.TestCase):
             [0, 1, 2],
             [5, 6, 7],
         ]
-        self.assertEquals(
+        self.assertEqual(
             [0, 5],
             pluck(data, 0)
         )
@@ -40,20 +40,20 @@ class ArrayTest(unittest.TestCase):
             [1, 2],
             [1, 2, 3],
         ]
-        self.assertEquals(
+        self.assertEqual(
             [1, 2, 3],
             pluck(data, max)
         )
 
         # user function
         def double(val): return val * 2
-        self.assertEquals(
+        self.assertEqual(
             [2, 4, 6],
             pluck([1, 2, 3], double),
         )
 
         # lambda
-        self.assertEquals(
+        self.assertEqual(
             [2, 4, 6],
             pluck([1, 2, 3], lambda x: x * 2)
         )

@@ -18,12 +18,12 @@ class TupleTest(unittest.TestCase):
             [ 3, 4 ],
         )
 
-        self.assertEquals(
+        self.assertEqual(
             (1, 3),
             pluck(data, 0)
         )
 
-        self.assertEquals(
+        self.assertEqual(
             (2, 4),
             pluck(data, max)
         )
