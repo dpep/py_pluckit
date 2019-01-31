@@ -14,7 +14,7 @@ def pluckit(obj, handle):
         return handle(obj)
 
     # dict-like key
-    if hasattr(obj, 'has_key'):
+    if hasattr(obj, 'keys'):
         return obj[handle]
 
     # object attribute or class method
