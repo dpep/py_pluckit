@@ -58,7 +58,6 @@ if __name__ == '__main__':
         test_suite = 'setup.discover_tests',
         tests_require = [
             'forbiddenfruit',
-            'unittest',
         ],
 
         # https://pypi.python.org/pypi?%3Aaction=list_classifiers
