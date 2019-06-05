@@ -6,8 +6,8 @@ __all__ = [ 'pluckit' ]
 
 def pluckit(obj, handle):
     if obj is None or handle is None:
-        # None has nothing to pluck...
-        return obj
+        # nothing to pluck
+        return None
 
     # function pointer
     if callable(handle):

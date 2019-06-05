@@ -13,7 +13,7 @@ from pluckit import pluck
 class CornerCasesTest(unittest.TestCase):
     def test_null_handle(self):
         data = [1, 2, 3]
-        self.assertEqual(data, pluck(data, None))
+        self.assertEqual([ None, None, None ], pluck(data, None))
 
 
     def test_empty(self):
