@@ -56,6 +56,14 @@ class PluckTest(unittest.TestCase):
             pluckit(abc, len)
         )
 
+        # dict keys can be ints
+        moreData = { 0: 'a', 3: 'c' }
+        self.assertEqual([ int, int ], list(map(type, moreData.keys())))
+        self.assertEqual(
+            'a',
+            pluckit(moreData, 0)
+        )
+
 
     def test_set(self):
         data = set([ 1, 2, 3 ])
