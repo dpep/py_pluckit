@@ -1,3 +1,10 @@
+v0.6.0, 2019-06-07
+    56150fc Update README.md
+    686a339 add slice support
+    815d6a5 better path support and validation.  wildcard support
+    4584aa1 add support for plucking paths
+    bba6ba9 simplify ordering.  add type checking.  ensure support for dicts with int keys
+    fbdcd56 plucking none should yield none
 v0.5.1, 2019-01-30
     553d2e7 python3 ready
     364be57 s/assertEquals/assertEqual/
