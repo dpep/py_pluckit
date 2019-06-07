@@ -20,6 +20,16 @@ pluck(data, 'x')
 > [1, 2, 3]
 
 
+# supports arbitrarily deep plucks and function calls
+people = [
+    { 'name': 'Daniel', 'friends': [ 'Josh', 'Mel' ] },
+    { 'name': 'Mel', 'friends': [ 'Daniel', 'Suzy' ] },
+]
+pluck(people, 'friends[-1].lower[:3]')
+> [ 'mel', 'suz' ]
+
+
+
 # use Pluckables for built-in functionality
 
 from pluckit.pluckable import PluckableList
