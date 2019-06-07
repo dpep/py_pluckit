@@ -49,6 +49,7 @@ if __name__ == '__main__':
         author='Daniel Pepper',
         description='extract values from collection items',
         long_description=open('README.md').read(),
+        long_description_content_type='text/markdown',
         platforms='any',
 
         packages=[
