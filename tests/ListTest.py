@@ -59,6 +59,18 @@ class ArrayTest(unittest.TestCase):
         )
 
 
+    def test_slice(self):
+        data = [
+            [ 1, 2, 3 ],
+            [ 4, 5, 6 ],
+        ]
+
+        self.assertEqual(
+            [ [ 2, 3 ], [ 5, 6 ] ],
+            pluck(data, slice(1, 3))
+        )
+
+
 
 if __name__ == '__main__':
     unittest.main()

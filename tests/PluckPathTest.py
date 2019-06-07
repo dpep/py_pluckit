@@ -232,6 +232,40 @@ class PluckPathTest(unittest.TestCase):
             pluckit(data, '*.')
 
 
+    def test_slice(self):
+        data = [ 0, 1, 2, 3 ]
+
+        self.assertEqual(
+            data[1:3], # [ 1, 2 ]
+            pluckit(data, '[1:3]')
+        )
+
+        self.assertEqual(
+            data[2:],
+            pluckit(data, '[2:]')
+        )
+
+        self.assertEqual(
+            data[:2],
+            pluckit(data, '[:2]')
+        )
+
+        self.assertEqual(
+            data[::2],
+            pluckit(data, '[::2]')
+        )
+
+        self.assertEqual(
+            data[:],
+            pluckit(data, '[:]')
+        )
+
+        self.assertEqual(
+            data[::],
+            pluckit(data, '[::]')
+        )
+
+
 
 if __name__ == '__main__':
     unittest.main()

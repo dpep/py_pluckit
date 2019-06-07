@@ -39,6 +39,11 @@ class PluckTest(unittest.TestCase):
             pluckit(data, lambda x: sum(x))
         )
 
+        self.assertEqual(
+            data[1:3], # [ 1, 2 ]
+            pluckit(data, slice(1, 3))
+        )
+
 
     def test_dict(self):
         abc = { 'a' : 1, 'b' : 2, 'c' : 3 }

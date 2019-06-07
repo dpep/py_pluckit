@@ -31,6 +31,7 @@ path_regex = re.compile(
     flags=re.IGNORECASE
 )
 is_numeric = re.compile(r'^-?\d+$').match
+is_slice = re.compile(r'^(-?\d+)?:(-?\d+)?:?(-?\d+)?$').match
 
 def pluckPath(obj, path):
     res = obj
@@ -86,6 +87,9 @@ def pluckPath(obj, path):
             if is_numeric(handle):
                 # list-like
                 handle = int(handle)
+            elif is_slice(handle):
+                # slice (or range)
+                handle = slice(*(int(x) if x else None for x in handle.split(':')))
             elif handle[0] == handle[-1] and (handle[0] in ['"', "'"]):
                 # strip quotes
                 handle = handle[1:-1]
