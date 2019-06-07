@@ -23,7 +23,7 @@ def pluckit(obj, handle):
     if not isinstance(handle, str):
         return obj[handle]
 
-    return pluckPath(obj, handle)
+    return __pluckPath(obj, handle)
 
 
 path_regex = re.compile(
@@ -33,7 +33,7 @@ path_regex = re.compile(
 is_numeric = re.compile(r'^-?\d+$').match
 is_slice = re.compile(r'^(-?\d+)?:(-?\d+)?:?(-?\d+)?$').match
 
-def pluckPath(obj, path):
+def __pluckPath(obj, path):
     res = obj
 
     while path:
@@ -79,7 +79,7 @@ def pluckPath(obj, path):
 
         elif attr:
             # explicit object attribute or method
-            res = pluckAttr(res, handle)
+            res = __pluckAttr(res, handle)
 
         elif subscript:
             # explicit subscript index, eg. for dict or list
@@ -106,7 +106,7 @@ def pluckPath(obj, path):
 
             elif hasattr(res, handle):
                 # seems legit since attr exists, so go with it
-                res = pluckAttr(res, handle)
+                res = __pluckAttr(res, handle)
 
             elif hasattr(res, '__getitem__'):
                 # assume handle is subscript
@@ -124,7 +124,7 @@ def pluckPath(obj, path):
     return res
 
 
-def pluckAttr(obj, handle):
+def __pluckAttr(obj, handle):
     attr = getattr(obj, handle)
 
     # if it's a method
