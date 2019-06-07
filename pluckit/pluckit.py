@@ -19,7 +19,7 @@ def pluckit(obj, handle):
     if isinstance(handle, int):
         return obj[handle]
 
-    # unsupported, just pass it through
+    # just pass it through
     if not isinstance(handle, str):
         return obj[handle]
 
