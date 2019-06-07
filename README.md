@@ -1,6 +1,6 @@
 pluckit
 ======
-Easily extract values from collection items.
+Extract values from collection items.
 
 
 ### Install
