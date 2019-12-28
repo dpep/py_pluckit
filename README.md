@@ -54,9 +54,5 @@ MyDict({
 > {'home' : 1, 'work' : 3}
 ```
 
-
-
-
-
 ----
 [![installs](https://img.shields.io/pypi/dm/pluckit.svg?label=installs)](https://pypi.org/project/pluckit)
