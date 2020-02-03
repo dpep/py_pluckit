@@ -8,7 +8,7 @@ Extract values from collection items.
 
 
 ### Usage
-```
+```python
 from pluckit import pluck
 
 data = [
