@@ -55,4 +55,6 @@ MyDict({
 ```
 
 ----
+[![Build Status](https://travis-ci.org/dpep/py_pluckit.svg?branch=master)](https://travis-ci.org/dpep/py_pluckit)
+[![Coverage Status](https://coveralls.io/repos/github/dpep/py_pluckit/badge.svg?branch=master)](https://coveralls.io/github/dpep/py_pluckit?branch=master)
 [![installs](https://img.shields.io/pypi/dm/pluckit.svg?label=installs)](https://pypi.org/project/pluckit)
