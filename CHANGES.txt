@@ -4,6 +4,7 @@ Unreleased
     `native.uninstall` skips types that were never installed instead of raising KeyError
     pluck any Mapping (MappingProxyType, ChainMap) by its values, and frozensets into sets
     the `*` wildcard only calls `.values()` on Mappings, so other iterables with a `values` attribute work
+    call method-wrappers like `.__len__` in paths, not just regular methods
 v0.6.0, 2019-06-07
     56150fc Update README.md
     686a339 add slice support
