@@ -1,4 +1,3 @@
-
 import unittest
 
 from pluckit.pluckit import pluckit
@@ -6,7 +5,7 @@ from pluckit.pluckit import pluckit
 
 class PluckTest(unittest.TestCase):
     def test_list(self):
-        data = [ 0, 1, 2, 3 ]
+        data = [0, 1, 2, 3]
 
         self.assertEqual(
             3,
@@ -15,13 +14,13 @@ class PluckTest(unittest.TestCase):
 
         self.assertEqual(
             list,
-            pluckit(data, '__class__'),
+            pluckit(data, "__class__"),
         )
 
         self.assertEqual(4, len(data))
         self.assertEqual(
             3,
-            pluckit(data, 'pop'),
+            pluckit(data, "pop"),
         )
         self.assertEqual(3, len(data))
 
@@ -32,117 +31,70 @@ class PluckTest(unittest.TestCase):
 
         self.assertEqual(
             3,  # 0 + 1 + 2
-            pluckit(data, lambda x: sum(x))
+            pluckit(data, lambda x: sum(x)),
         )
 
         self.assertEqual(
-            data[1:3], # [ 1, 2 ]
-            pluckit(data, slice(1, 3))
+            data[1:3],  # [ 1, 2 ]
+            pluckit(data, slice(1, 3)),
         )
-
 
     def test_dict(self):
-        abc = { 'a' : 1, 'b' : 2, 'c' : 3 }
+        abc = {"a": 1, "b": 2, "c": 3}
 
-        self.assertEqual(
-            1,
-            pluckit(abc, 'a')
-        )
+        self.assertEqual(1, pluckit(abc, "a"))
 
         with self.assertRaises(KeyError):
-            pluckit(abc, 'values')
+            pluckit(abc, "values")
 
-        self.assertEqual(
-            3,
-            pluckit(abc, len)
-        )
+        self.assertEqual(3, pluckit(abc, len))
 
         # dict keys can be ints
-        moreData = { 0: 'a', 3: 'c' }
-        self.assertEqual([ int, int ], list(map(type, moreData.keys())))
-        self.assertEqual(
-            'a',
-            pluckit(moreData, 0)
-        )
-
+        moreData = {0: "a", 3: "c"}
+        self.assertEqual([int, int], list(map(type, moreData.keys())))
+        self.assertEqual("a", pluckit(moreData, 0))
 
     def test_set(self):
-        data = { 1, 2, 3 }
+        data = {1, 2, 3}
 
-        self.assertEqual(
-            3,
-            pluckit(data, len)
-        )
+        self.assertEqual(3, pluckit(data, len))
 
-        self.assertEqual(
-            6,
-            pluckit(data, lambda x: sum(x))
-        )
+        self.assertEqual(6, pluckit(data, lambda x: sum(x)))
 
-        self.assertEqual(
-            1,
-            pluckit(data, 'pop')
-        )
-
+        self.assertEqual(1, pluckit(data, "pop"))
 
     def test_obj(self):
         class Foo:
             def foo(self):
-                return 'foo'
+                return "foo"
 
             @classmethod
             def bar(cls):
-                return 'bar'
+                return "bar"
 
             @staticmethod
             def baz():
-                return 'baz'
+                return "baz"
 
             @property
             def prop(self):
-                return 'abc'
+                return "abc"
 
             CONST = 123
 
+        self.assertEqual("foo", pluckit(Foo(), "foo"))
 
-        self.assertEqual(
-            'foo',
-            pluckit(Foo(), 'foo')
-        )
+        self.assertEqual("bar", pluckit(Foo, "bar"))
+        self.assertEqual("bar", pluckit(Foo(), "bar"))
 
-        self.assertEqual(
-            'bar',
-            pluckit(Foo, 'bar')
-        )
-        self.assertEqual(
-            'bar',
-            pluckit(Foo(), 'bar')
-        )
+        self.assertEqual("baz", pluckit(Foo, "baz"))
+        self.assertEqual("baz", pluckit(Foo(), "baz"))
 
-        self.assertEqual(
-            'baz',
-            pluckit(Foo, 'baz')
-        )
-        self.assertEqual(
-            'baz',
-            pluckit(Foo(), 'baz')
-        )
+        self.assertEqual("abc", pluckit(Foo(), "prop"))
 
-        self.assertEqual(
-            'abc',
-            pluckit(Foo(), 'prop')
-        )
+        self.assertEqual(123, pluckit(Foo, "CONST"))
 
-        self.assertEqual(
-            123,
-            pluckit(Foo, 'CONST')
-        )
-
-        self.assertEqual(
-            'Foo',
-            pluckit(Foo, '__name__')
-        )
-
+        self.assertEqual("Foo", pluckit(Foo, "__name__"))
 
     def test_tuple(self):
         data = (1, 2, 3)
@@ -150,17 +102,16 @@ class PluckTest(unittest.TestCase):
         self.assertEqual(1, pluckit(data, 0))
         self.assertEqual(3, pluckit(data, len))
 
-
     def test_none(self):
-        self.assertEqual(None, pluckit(None, 'abc'))
+        self.assertEqual(None, pluckit(None, "abc"))
         self.assertEqual(None, pluckit(None, 123))
         self.assertEqual(None, pluckit(None, str))
 
         def explode():
-            raise AssertionError('this should never execute')
+            raise AssertionError("this should never execute")
+
         self.assertEqual(None, pluckit(None, explode))
 
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

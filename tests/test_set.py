@@ -1,10 +1,9 @@
-
 import unittest
 from collections import namedtuple
 
 from pluckit import pluck
 
-Coordinate = namedtuple('Coordinate', ['x', 'y'])  # hashable
+Coordinate = namedtuple("Coordinate", ["x", "y"])  # hashable
 
 
 class SetTest(unittest.TestCase):
@@ -15,12 +14,8 @@ class SetTest(unittest.TestCase):
             Coordinate(x=3, y=6),
         }
 
-        self.assertEqual(
-            {1, 2, 3},
-            pluck(data, 'x')
-        )
+        self.assertEqual({1, 2, 3}, pluck(data, "x"))
 
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

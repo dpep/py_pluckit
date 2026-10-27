@@ -1,5 +1,5 @@
-__author__ = 'dpepper'
-__version__ = '0.6.0'
+__author__ = "dpepper"
+__version__ = "0.6.0"
 
 
 from .pluck import pluck
@@ -7,4 +7,4 @@ from .pluck import pluck
 # make available for import
 from .pluckable import *
 
-__all__ = [ 'pluck' ]
+__all__ = ["pluck"]
