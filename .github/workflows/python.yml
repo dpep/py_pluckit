@@ -1,0 +1,40 @@
+name: Python
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  unittest:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: [ "3.12", "3.13", "3.14", "3.15" ]
+
+    steps:
+    - uses: actions/checkout@v7
+    - name: Python setup
+      uses: actions/setup-python@v7
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: pip
+    - name: install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -e . --group dev
+    - run: script/check.sh
+
+  # single required status check that gates on the whole matrix
+  test:
+    needs: unittest
+    if: always()
+    runs-on: ubuntu-latest
+
+    steps:
+    - if: needs.unittest.result != 'success'
+      run: exit 1

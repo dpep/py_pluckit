@@ -12,32 +12,30 @@ from .pluck import pluck
 
 try:
     import forbiddenfruit
-except ImportError:
-    raise ImportError(
-      'manual install needed: `pip install forbiddenfruit`'
-    )
+except ImportError as e:
+    raise ImportError("manual install needed: `pip install pluckit[native]`") from e
 
-__all__ = [ 'install', 'uninstall' ]
+__all__ = ["install", "uninstall"]
 
 
 cursed_types = set()
 
+
 def install(types):
     for _type in types:
-        forbiddenfruit.curse(_type, 'pluck', pluck)
+        forbiddenfruit.curse(_type, "pluck", pluck)
         cursed_types.add(_type)
 
 
-def uninstall(types = None):
+def uninstall(types=None):
     if types is None:
         # uninstall everything
         types = list(cursed_types)
 
     for _type in types:
-        forbiddenfruit.reverse(_type, 'pluck')
+        forbiddenfruit.reverse(_type, "pluck")
         cursed_types.remove(_type)
 
 
-
 # wire it up
-install([ dict, list, set, tuple ])
+install([dict, list, set, tuple])

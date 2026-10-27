@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools >= 77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pluckit"
+authors = [{name = "Daniel Pepper"}]
+dynamic = ["version"]
+description = "extract values from collection items"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE.txt"]
+keywords = ["pluck", "collections", "map", "path"]
+classifiers = [
+  # https://pypi.org/classifiers/
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Programming Language :: Python :: 3.15",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Topic :: Utilities",
+]
+requires-python = ">= 3.12"
+
+[project.optional-dependencies]
+native = ["forbiddenfruit"]
+
+[project.urls]
+Homepage = "https://github.com/dpep/py_pluckit"
+Issues = "https://github.com/dpep/py_pluckit/issues"
+Changelog = "https://github.com/dpep/py_pluckit/blob/master/CHANGES.txt"
+
+[tool.setuptools]
+packages = ["pluckit"]
+
+[tool.setuptools.dynamic]
+version = {attr = "pluckit.__version__"}
+
+[dependency-groups]
+dev = [
+  "forbiddenfruit",
+  "pytest >= 8.2",
+  "ruff",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = ["--strict-markers"]
+xfail_strict = true
+
+[tool.ruff]
+target-version = "py312"
+
+[tool.ruff.lint]
+extend-select = ["I", "UP", "B"]

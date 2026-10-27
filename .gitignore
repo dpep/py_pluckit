@@ -1,9 +1,15 @@
 # Packages
-.eggs
 *.egg
 *.egg-info
 build
 dist
+eggs
 sdist
 
 *.pyc
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.tox/
+.venv/
+.DS_Store
