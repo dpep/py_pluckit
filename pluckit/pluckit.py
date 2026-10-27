@@ -14,15 +14,11 @@ def pluckit(obj, handle):
     if callable(handle):
         return handle(obj)
 
-    # index for list-like object
-    if isinstance(handle, int):
-        return obj[handle]
-
-    # just pass it through
+    # index, key, or slice: just pass it through
     if not isinstance(handle, str):
         return obj[handle]
 
-    return __pluckPath(obj, handle)
+    return _pluck_path(obj, handle)
 
 
 path_regex = re.compile(
@@ -33,7 +29,7 @@ is_numeric = re.compile(r"^-?\d+$").match
 is_slice = re.compile(r"^(-?\d+)?:(-?\d+)?:?(-?\d+)?$").match
 
 
-def __pluckPath(obj, path):
+def _pluck_path(obj, path):
     res = obj
 
     while path:
@@ -75,7 +71,7 @@ def __pluckPath(obj, path):
 
         elif attr:
             # explicit object attribute or method
-            res = __pluckAttr(res, handle)
+            res = _pluck_attr(res, handle)
 
         elif subscript:
             # explicit subscript index, eg. for dict or list
@@ -102,7 +98,7 @@ def __pluckPath(obj, path):
 
             elif hasattr(res, handle):
                 # seems legit since attr exists, so go with it
-                res = __pluckAttr(res, handle)
+                res = _pluck_attr(res, handle)
 
             elif hasattr(res, "__getitem__"):
                 # assume handle is subscript
@@ -120,7 +116,7 @@ def __pluckPath(obj, path):
     return res
 
 
-def __pluckAttr(obj, handle):
+def _pluck_attr(obj, handle):
     attr = getattr(obj, handle)
 
     if inspect.isroutine(attr):
