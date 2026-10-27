@@ -1,6 +1,6 @@
+import inspect
 import re
 from collections.abc import Mapping
-from types import *
 
 __all__ = ["pluckit"]
 
@@ -123,16 +123,7 @@ def __pluckPath(obj, path):
 def __pluckAttr(obj, handle):
     attr = getattr(obj, handle)
 
-    # if it's a method
-    if isinstance(
-        attr,
-        (
-            BuiltinFunctionType,
-            BuiltinMethodType,
-            FunctionType,
-            MethodType,
-        ),
-    ):
+    if inspect.isroutine(attr):
         # call it and use return value
         return attr()
 
