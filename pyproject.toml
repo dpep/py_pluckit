@@ -33,7 +33,7 @@ native = ["forbiddenfruit"]
 [project.urls]
 Homepage = "https://github.com/dpep/py_pluckit"
 Issues = "https://github.com/dpep/py_pluckit/issues"
-Changelog = "https://github.com/dpep/py_pluckit/blob/master/CHANGES.txt"
+Changelog = "https://github.com/dpep/py_pluckit/blob/main/CHANGES.txt"
 
 [tool.setuptools]
 packages = ["pluckit"]
