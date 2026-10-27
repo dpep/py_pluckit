@@ -9,6 +9,7 @@ Unreleased
     paths are validated up front: bad syntax raises ValueError even when there is nothing to pluck
     an empty path raises ValueError instead of returning the object unchanged
     quoted keys may contain `]`, `.` or `[`, and `["]` is the key `"` rather than an empty string
+    whitespace inside brackets is ignored: `[ 0 ]` works
 v0.6.0, 2019-06-07
     56150fc Update README.md
     686a339 add slice support

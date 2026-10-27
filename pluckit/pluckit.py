@@ -31,7 +31,7 @@ STAR = "star"
 step_regex = re.compile(
     r"""(
         (?P<dot>\.)?(?P<handle>\*|-?\d+|[a-z_][a-z0-9_]*)
-        | \[(?: "(?P<dq>[^"]*)" | '(?P<sq>[^']*)' | (?P<subscript>.+?) )\]
+        | \[\s*(?: "(?P<dq>[^"]*)" | '(?P<sq>[^']*)' | (?P<subscript>\S(?:.*?\S)??) )\s*\]
     )(?=[\*\.\[]|\Z)""",
     flags=re.IGNORECASE | re.VERBOSE,
 )
