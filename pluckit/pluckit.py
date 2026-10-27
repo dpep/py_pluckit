@@ -29,8 +29,11 @@ ITEM = "item"
 STAR = "star"
 
 step_regex = re.compile(
-    r"((?P<dot>\.)?(?P<handle>\*|-?\d+|[a-z_][a-z0-9_]*)|\[(?P<subscript>.+?)\])(?=[\*\.\[]|\Z)",
-    flags=re.IGNORECASE,
+    r"""(
+        (?P<dot>\.)?(?P<handle>\*|-?\d+|[a-z_][a-z0-9_]*)
+        | \[(?: "(?P<dq>[^"]*)" | '(?P<sq>[^']*)' | (?P<subscript>.+?) )\]
+    )(?=[\*\.\[]|\Z)""",
+    flags=re.IGNORECASE | re.VERBOSE,
 )
 is_numeric = re.compile(r"^-?\d+$").match
 is_slice = re.compile(r"^(-?\d+)?:(-?\d+)?:?(-?\d+)?$").match
@@ -51,19 +54,21 @@ def parse_path(path):
         pos = match.end()
 
         handle, subscript = match.group("handle"), match.group("subscript")
+        quoted = match.group("dq")
+        if quoted is None:
+            quoted = match.group("sq")
 
         if "*" in (handle, subscript):
             steps.append((STAR, None))
         elif handle is not None:
             steps.append((ATTR if match.group("dot") else BARE, handle))
+        elif quoted is not None:
+            steps.append((ITEM, quoted))
         elif is_numeric(subscript):
             steps.append((ITEM, int(subscript)))
         elif is_slice(subscript):
             parts = (int(x) if x else None for x in subscript.split(":"))
             steps.append((ITEM, slice(*parts)))
-        elif subscript[0] == subscript[-1] and subscript[0] in "\"'":
-            # strip quotes
-            steps.append((ITEM, subscript[1:-1]))
         else:
             steps.append((ITEM, subscript))
 
