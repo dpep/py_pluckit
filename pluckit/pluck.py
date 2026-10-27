@@ -12,7 +12,7 @@ def pluck(collection, handle):
         return None
 
     if isinstance(handle, str):
-        # fail fast on bad syntax, even if there's nothing to pluck
+        # fail fast on bad syntax
         parse_path(handle)
 
     if isinstance(collection, Mapping):
