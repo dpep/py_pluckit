@@ -1,6 +1,7 @@
 Unreleased
     requires Python >= 3.12
     packaging moved to pyproject.toml; `pip install pluckit[native]` pulls in forbiddenfruit
+    call method-wrappers like `.__len__` in paths, not just regular methods
     pluck any Mapping (MappingProxyType, ChainMap) by its values, and frozensets into sets
 v0.6.0, 2019-06-07
     56150fc Update README.md

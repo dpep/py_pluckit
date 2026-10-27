@@ -1,5 +1,5 @@
 import unittest
-from types import MappingProxyType
+from types import MappingProxyType, SimpleNamespace
 
 from pluckit.pluckit import path_regex, pluckit
 
@@ -94,6 +94,13 @@ class PluckPathTest(unittest.TestCase):
         self.assertEqual("foo", pluckit(data, "c[d].foo"))
 
         self.assertEqual("Foo", pluckit(data, "c[d].__class__.__name__"))
+
+        # method-wrappers are methods too
+        self.assertEqual(3, pluckit("abc", ".__len__"))
+        self.assertEqual(3, pluckit("abc", "__len__"))
+
+        # classes are callable, but not methods
+        self.assertIs(int, pluckit(SimpleNamespace(kind=int), "kind"))
 
     def test_errors(self):
         data = {"a": []}
