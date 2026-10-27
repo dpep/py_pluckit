@@ -12,6 +12,8 @@ class PluckPathTest(unittest.TestCase):
         self.assertEqual(((ITEM, "a"),), parse_path("[a]"))
         self.assertEqual(((ITEM, "a"),), parse_path('["a"]'))
         self.assertEqual(((ITEM, "a"),), parse_path("['a']"))
+        self.assertEqual(((ITEM, "a"),), parse_path("[ a ]"))
+        self.assertEqual(((ITEM, "a"),), parse_path('[ "a" ]'))
         self.assertEqual(((BARE, "0"),), parse_path("0"))
         self.assertEqual(((ITEM, 0),), parse_path("[0]"))
         self.assertEqual(((ITEM, "0"),), parse_path('["0"]'))
@@ -19,6 +21,7 @@ class PluckPathTest(unittest.TestCase):
 
         self.assertEqual(((BARE, "a"), (ATTR, "b")), parse_path("a.b"))
         self.assertEqual(((BARE, "a"), (ATTR, "0")), parse_path("a.0"))
+        self.assertEqual(((ITEM, 0), (ITEM, 1)), parse_path("[0][1]"))
 
         self.assertEqual(((STAR, None),), parse_path("*"))
         self.assertEqual(((STAR, None),), parse_path("[*]"))
@@ -37,6 +40,7 @@ class PluckPathTest(unittest.TestCase):
             "",
             ".",
             "[]",
+            "[ ]",
             "[",
             "]",
             ".[",
@@ -203,6 +207,11 @@ class PluckPathTest(unittest.TestCase):
     def test_quoted_keys(self):
         self.assertEqual(1, pluckit({"a].b": {"c": 1}}, '["a].b"][c]'))
         self.assertEqual(1, pluckit({'"': 1}, "['\"']"))
+
+    def test_whitespace(self):
+        self.assertEqual(1, pluckit([0, 1], "[ 1 ]"))
+        self.assertEqual([1, 2], pluckit([0, 1, 2], "[ 1:3 ]"))
+        self.assertEqual(1, pluckit({" a ": 1}, '[" a "]'))
 
     def test_odd_equality(self):
         # bare names must not depend on the object's __eq__
