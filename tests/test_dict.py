@@ -1,4 +1,6 @@
 import unittest
+from collections import ChainMap
+from types import MappingProxyType
 
 from pluckit import pluck
 
@@ -33,6 +35,12 @@ class DictTest(unittest.TestCase):
             },
             pluck(data, 1),
         )
+
+    def test_mappings(self):
+        data = {"a": [0, 1], "b": [5, 6]}
+
+        self.assertEqual({"a": 1, "b": 6}, pluck(MappingProxyType(data), 1))
+        self.assertEqual({"a": 1, "b": 6}, pluck(ChainMap(data), 1))
 
 
 if __name__ == "__main__":
