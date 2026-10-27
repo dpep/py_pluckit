@@ -29,6 +29,7 @@ class PluckPathTest(unittest.TestCase):
 
     def test_path_errors(self):
         bad_paths = [
+            "",
             ".",
             "[]",
             "[",

@@ -39,6 +39,9 @@ is_slice = re.compile(r"^(-?\d+)?:(-?\d+)?:?(-?\d+)?$").match
 @functools.lru_cache(maxsize=256)
 def parse_path(path):
     """Parse a path like `a[0].b` into a tuple of (kind, key) steps."""
+    if not path:
+        raise ValueError("invalid path syntax: empty path")
+
     steps = []
     pos = 0
     while pos < len(path):
