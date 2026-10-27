@@ -16,6 +16,12 @@ class SetTest(unittest.TestCase):
 
         self.assertEqual({1, 2, 3}, pluck(data, "x"))
 
+    def test_frozenset(self):
+        data = frozenset({Coordinate(x=1, y=2), Coordinate(x=2, y=4)})
+
+        self.assertEqual({1, 2}, pluck(data, "x"))
+        self.assertIsInstance(pluck(data, "x"), set)
+
 
 if __name__ == "__main__":
     unittest.main()
