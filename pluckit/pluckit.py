@@ -91,8 +91,6 @@ def _pluck_path(obj, path):
         else:
             # unspecified type, use heuristics.
             # only possible on first path element
-            assert obj == res
-
             if hasattr(res, "keys"):
                 res = res[handle]
 

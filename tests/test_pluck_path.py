@@ -1,3 +1,4 @@
+import math
 import unittest
 from types import MappingProxyType, SimpleNamespace
 
@@ -203,6 +204,18 @@ class PluckPathTest(unittest.TestCase):
             values = "not a method"
 
         self.assertEqual([1, 2], pluckit(Row([1, 2]), "*"))
+
+    def test_odd_equality(self):
+        # bare names must not depend on the object's __eq__
+        self.assertTrue(math.isnan(pluckit(float("nan"), "real")))
+
+        class Never:
+            x = 1
+
+            def __eq__(self, other):
+                return False
+
+        self.assertEqual(1, pluckit(Never(), "x"))
 
     def test_slice(self):
         data = [0, 1, 2, 3]
