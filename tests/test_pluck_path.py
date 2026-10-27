@@ -1,4 +1,5 @@
 import unittest
+from types import MappingProxyType
 
 from pluckit.pluckit import path_regex, pluckit
 
@@ -185,6 +186,16 @@ class PluckPathTest(unittest.TestCase):
 
         with self.assertRaises(ValueError):
             pluckit(data, "*.")
+
+    def test_wildcard_mappings(self):
+        data = MappingProxyType({"a": 1, "b": 2})
+        self.assertEqual([1, 2], pluckit(data, "*"))
+
+        # only Mappings have their values() iterated
+        class Row(list):
+            values = "not a method"
+
+        self.assertEqual([1, 2], pluckit(Row([1, 2]), "*"))
 
     def test_slice(self):
         data = [0, 1, 2, 3]

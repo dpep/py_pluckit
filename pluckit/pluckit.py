@@ -1,4 +1,5 @@
 import re
+from collections.abc import Mapping
 from types import *
 
 __all__ = ["pluckit"]
@@ -55,10 +56,7 @@ def __pluckPath(obj, path):
         if "*" == handle:
             # match all values
 
-            if hasattr(res, "values"):
-                values = res.values()
-            else:
-                values = iter(res)
+            values = res.values() if isinstance(res, Mapping) else res
 
             if path:
                 # pluck remaining path from all values
