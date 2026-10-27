@@ -1,7 +1,5 @@
-from copy import copy
 
 from .pluckit import pluckit
-
 
 __all__ = [ 'pluck' ]
 
@@ -24,4 +22,4 @@ def pluck(collection, handle):
         # list or list like
         return [ pluckit(x, handle) for x in collection ]
 
-    raise TypeError('unpluckable type: %s' % type(collection))
+    raise TypeError(f'unpluckable type: {type(collection)}')

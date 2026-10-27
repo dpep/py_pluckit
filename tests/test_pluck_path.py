@@ -1,12 +1,7 @@
-#!/usr/bin/env python
 
-import os
-import sys
 import unittest
 
-sys.path = [ os.path.abspath(os.path.join(os.path.dirname(__file__), '..')) ] + sys.path
-from pluckit.pluckit import pluckit, path_regex
-
+from pluckit.pluckit import path_regex, pluckit
 
 
 class PluckPathTest(unittest.TestCase):

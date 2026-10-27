@@ -1,7 +1,6 @@
 import re
 from types import *
 
-
 __all__ = [ 'pluckit' ]
 
 

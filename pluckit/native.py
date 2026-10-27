@@ -12,10 +12,10 @@ from .pluck import pluck
 
 try:
     import forbiddenfruit
-except ImportError:
+except ImportError as e:
     raise ImportError(
-      'manual install needed: `pip install forbiddenfruit`'
-    )
+      'manual install needed: `pip install pluckit[native]`'
+    ) from e
 
 __all__ = [ 'install', 'uninstall' ]
 

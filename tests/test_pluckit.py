@@ -1,10 +1,6 @@
-#!/usr/bin/env python
 
-import os
-import sys
 import unittest
 
-sys.path = [ os.path.abspath(os.path.join(os.path.dirname(__file__), '..')) ] + sys.path
 from pluckit.pluckit import pluckit
 
 
@@ -71,7 +67,7 @@ class PluckTest(unittest.TestCase):
 
 
     def test_set(self):
-        data = set([ 1, 2, 3 ])
+        data = { 1, 2, 3 }
 
         self.assertEqual(
             3,
@@ -90,7 +86,7 @@ class PluckTest(unittest.TestCase):
 
 
     def test_obj(self):
-        class Foo():
+        class Foo:
             def foo(self):
                 return 'foo'
 
@@ -161,7 +157,7 @@ class PluckTest(unittest.TestCase):
         self.assertEqual(None, pluckit(None, str))
 
         def explode():
-            raise Exception('this should never execute')
+            raise AssertionError('this should never execute')
         self.assertEqual(None, pluckit(None, explode))
 
 

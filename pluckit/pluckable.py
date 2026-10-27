@@ -1,16 +1,15 @@
 from .pluck import pluck
 
-
 __all__ = [
-  'Pluckable',
-  'PluckableList',
-  'PluckableDict',
-  'PluckableSet',
-  'PluckableTuple',
+    'Pluckable',
+    'PluckableDict',
+    'PluckableList',
+    'PluckableSet',
+    'PluckableTuple',
 ]
 
 
-class Pluckable():
+class Pluckable:
     def pluck(self, handle):
         return pluck(self, handle)
 
