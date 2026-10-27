@@ -1,7 +1,7 @@
 from collections.abc import Iterable, Mapping
 from collections.abc import Set as AbstractSet
 
-from .pluckit import pluckit
+from .pluckit import parse_path, pluckit
 
 __all__ = ["pluck"]
 
@@ -10,6 +10,10 @@ def pluck(collection, handle):
     if collection is None:
         # nothing to pluck
         return None
+
+    if isinstance(handle, str):
+        # fail fast on bad syntax
+        parse_path(handle)
 
     if isinstance(collection, Mapping):
         return {k: pluckit(v, handle) for k, v in collection.items()}

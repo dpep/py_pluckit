@@ -1,3 +1,4 @@
+import functools
 import inspect
 import re
 from collections.abc import Mapping
@@ -18,100 +19,86 @@ def pluckit(obj, handle):
     if not isinstance(handle, str):
         return obj[handle]
 
-    return _pluck_path(obj, handle)
+    return _walk(obj, parse_path(handle))
 
 
-path_regex = re.compile(
-    r"^((?P<dot>\.)?(?P<handle>\*|-?\d+|[a-z_][a-z0-9_]*)|\[(?P<subscript>.+?)\])(?=[\*\.\[]|\Z)",
+# step kinds
+BARE = "bare"  # unadorned name, resolved by heuristics.  only ever the first step
+ATTR = "attr"
+ITEM = "item"
+STAR = "star"
+
+step_regex = re.compile(
+    r"((?P<dot>\.)?(?P<handle>\*|-?\d+|[a-z_][a-z0-9_]*)|\[(?P<subscript>.+?)\])(?=[\*\.\[]|\Z)",
     flags=re.IGNORECASE,
 )
 is_numeric = re.compile(r"^-?\d+$").match
 is_slice = re.compile(r"^(-?\d+)?:(-?\d+)?:?(-?\d+)?$").match
 
 
-def _pluck_path(obj, path):
-    res = obj
-
-    while path:
-        match = path_regex.match(path)
-
+@functools.lru_cache(maxsize=256)
+def parse_path(path):
+    """Parse a path like `a[0].b` into a tuple of (kind, key) steps."""
+    steps = []
+    pos = 0
+    while pos < len(path):
+        match = step_regex.match(path, pos)
         if not match:
-            raise ValueError("invalid path syntax: " + path)
+            raise ValueError("invalid path syntax: " + path[pos:])
+        pos = match.end()
 
-        # trim element from remaining path
-        path = path[len(match.group()) :]
+        handle, subscript = match.group("handle"), match.group("subscript")
 
-        # an explicit attribute or method
-        attr = bool(match.group("dot"))
-
-        # an explicit subscript
-        subscript = bool(match.group("subscript"))
-
-        handle = match.group("handle") or match.group("subscript")
-
-        if "*" == handle:
-            # match all values
-
-            values = res.values() if isinstance(res, Mapping) else res
-
-            if path:
-                # pluck remaining path from all values
-                res = [pluckit(x, path) for x in values]
-
-                if len(res) == 0 and not path_regex.match(path):
-                    # corner case were path needs validation,
-                    # eg pluckit([], '*.')
-                    raise ValueError("invalid path syntax: " + path)
-            else:
-                # match all remaining values
-                res = list(values)
-
-            # break out of loop since pluck completed via recursion
-            return res
-
-        elif attr:
-            # explicit object attribute or method
-            res = _pluck_attr(res, handle)
-
-        elif subscript:
-            # explicit subscript index, eg. for dict or list
-
-            if is_numeric(handle):
-                # list-like
-                handle = int(handle)
-            elif is_slice(handle):
-                # slice (or range)
-                handle = slice(*(int(x) if x else None for x in handle.split(":")))
-            elif handle[0] == handle[-1] and (handle[0] in ['"', "'"]):
-                # strip quotes
-                handle = handle[1:-1]
-
-            res = res[handle]
-
+        if "*" in (handle, subscript):
+            steps.append((STAR, None))
+        elif handle is not None:
+            steps.append((ATTR if match.group("dot") else BARE, handle))
+        elif is_numeric(subscript):
+            steps.append((ITEM, int(subscript)))
+        elif is_slice(subscript):
+            parts = (int(x) if x else None for x in subscript.split(":"))
+            steps.append((ITEM, slice(*parts)))
+        elif subscript[0] == subscript[-1] and subscript[0] in "\"'":
+            # strip quotes
+            steps.append((ITEM, subscript[1:-1]))
         else:
-            # unspecified type, use heuristics.
-            # only possible on first path element
-            if hasattr(res, "keys"):
-                res = res[handle]
+            steps.append((ITEM, subscript))
 
-            elif hasattr(res, handle):
-                # seems legit since attr exists, so go with it
-                res = _pluck_attr(res, handle)
+    return tuple(steps)
 
-            elif hasattr(res, "__getitem__"):
-                # assume handle is subscript
 
-                if is_numeric(handle):
-                    # list-like index
-                    res = res[int(handle)]
-                else:
-                    # dict-like index
-                    res = res[handle]
+def _walk(obj, steps):
+    for i, (kind, key) in enumerate(steps):
+        if kind is STAR:
+            values = obj.values() if isinstance(obj, Mapping) else obj
+            rest = steps[i + 1 :]
+            # None values short-circuit, same as pluckit()
+            return [None if x is None else _walk(x, rest) for x in values]
 
-            else:
-                raise ValueError("invalid handle: " + handle)
+        if kind is ATTR:
+            obj = _pluck_attr(obj, key)
+        elif kind is ITEM:
+            obj = obj[key]
+        else:
+            obj = _pluck_bare(obj, key)
 
-    return res
+    return obj
+
+
+def _pluck_bare(obj, name):
+    # unspecified type, use heuristics
+    if hasattr(obj, "keys"):
+        return obj[name]
+
+    if hasattr(obj, name):
+        # seems legit since attr exists, so go with it
+        return _pluck_attr(obj, name)
+
+    if hasattr(obj, "__getitem__"):
+        # assume name is a subscript: list-like index or dict-like key
+        return obj[int(name)] if is_numeric(name) else obj[name]
+
+    raise ValueError("invalid handle: " + name)
 
 
 def _pluck_attr(obj, handle):
