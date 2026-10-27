@@ -2,15 +2,20 @@
 Make native list / dict / set / tuple pluckable
 """
 
+import importlib
 import unittest
 from collections import namedtuple
 
-import pluckit.native
+# Patching builtins leaks into every other test, so scope it to this module.
+# Importing installs, and pytest imports all test modules before running any.
+
+
+def setUpModule():
+    importlib.import_module("pluckit.native")
 
 
 def tearDownModule():
-    # patching builtins leaks into every other test
-    pluckit.native.uninstall()
+    importlib.import_module("pluckit.native").uninstall()
 
 
 class NativeTest(unittest.TestCase):
