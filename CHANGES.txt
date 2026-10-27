@@ -1,6 +1,7 @@
 Unreleased
     requires Python >= 3.12
     packaging moved to pyproject.toml; `pip install pluckit[native]` pulls in forbiddenfruit
+    `native.uninstall` skips types that were never installed instead of raising KeyError
 v0.6.0, 2019-06-07
     56150fc Update README.md
     686a339 add slice support

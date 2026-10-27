@@ -33,8 +33,9 @@ def uninstall(types=None):
         types = list(cursed_types)
 
     for _type in types:
-        forbiddenfruit.reverse(_type, "pluck")
-        cursed_types.remove(_type)
+        if _type in cursed_types:
+            forbiddenfruit.reverse(_type, "pluck")
+            cursed_types.remove(_type)
 
 
 # wire it up
