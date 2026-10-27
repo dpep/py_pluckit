@@ -6,6 +6,7 @@ Unreleased
     quoted keys may contain `]`, `.` or `[`; whitespace inside brackets is ignored
     bare names no longer crash on objects with unusual `__eq__` (NaN, numpy arrays)
     `native.uninstall` skips types that were never installed instead of raising KeyError
+    `from pluckit import *` exports the Pluckable classes
     pluck any Mapping (MappingProxyType, ChainMap) by its values, and frozensets into sets
 v0.6.0, 2019-06-07
     56150fc Update README.md

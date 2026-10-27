@@ -3,8 +3,19 @@ __version__ = "0.6.0"
 
 
 from .pluck import pluck
+from .pluckable import (
+    Pluckable,
+    PluckableDict,
+    PluckableList,
+    PluckableSet,
+    PluckableTuple,
+)
 
-# make available for import
-from .pluckable import *
-
-__all__ = ["pluck"]
+__all__ = [
+    "Pluckable",
+    "PluckableDict",
+    "PluckableList",
+    "PluckableSet",
+    "PluckableTuple",
+    "pluck",
+]
