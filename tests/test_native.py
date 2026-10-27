@@ -63,6 +63,16 @@ class NativeTest(unittest.TestCase):
 
         self.assertEqual((3, 7), data.pluck(sum))
 
+    def test_uninstall(self):
+        native = importlib.import_module("pluckit.native")
+
+        native.uninstall([frozenset])  # never installed
+        native.uninstall([list, list])
+        self.assertFalse(hasattr([], "pluck"))
+
+        native.install([list])
+        self.assertEqual([1], [[1]].pluck(0))
+
 
 if __name__ == "__main__":
     unittest.main()
