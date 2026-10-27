@@ -1,68 +1,66 @@
+import math
 import unittest
 from types import MappingProxyType, SimpleNamespace
 
-from pluckit.pluckit import path_regex, pluckit
+from pluckit import pluck
+from pluckit.pluckit import ATTR, BARE, ITEM, STAR, parse_path, pluckit
 
 
 class PluckPathTest(unittest.TestCase):
-    def test_path_regex(self):
-        def match_path(expected, path):
-            steps = []
+    def test_parse_path(self):
+        self.assertEqual(((BARE, "a"),), parse_path("a"))
+        self.assertEqual(((ITEM, "a"),), parse_path("[a]"))
+        self.assertEqual(((ITEM, "a"),), parse_path('["a"]'))
+        self.assertEqual(((ITEM, "a"),), parse_path("['a']"))
+        self.assertEqual(((ITEM, "a"),), parse_path("[ a ]"))
+        self.assertEqual(((BARE, "0"),), parse_path("0"))
+        self.assertEqual(((ITEM, 0),), parse_path("[0]"))
+        self.assertEqual(((ITEM, "0"),), parse_path('["0"]'))
+        self.assertEqual(((ITEM, slice(1, None)),), parse_path("[1:]"))
 
-            while path:
-                match = path_regex.match(path)
-                self.assertTrue(match)
+        self.assertEqual(((BARE, "a"), (ATTR, "b")), parse_path("a.b"))
+        self.assertEqual(((BARE, "a"), (ATTR, "0")), parse_path("a.0"))
 
-                handle = match.group("handle") or match.group("subscript")
-                steps.append(handle)
-                path = path[len(match.group()) :]
-            self.assertEqual(expected, steps)
+        self.assertEqual(((STAR, None),), parse_path("*"))
+        self.assertEqual(((STAR, None),), parse_path("[*]"))
+        self.assertEqual(((ITEM, "*"),), parse_path('["*"]'))
+        self.assertEqual(((BARE, "a"), (STAR, None)), parse_path("a.*"))
+        self.assertEqual(((BARE, "a"), (STAR, None)), parse_path("a[*]"))
+        self.assertEqual(((STAR, None), (ATTR, "a")), parse_path("*.a"))
 
-        match_path(["a"], "a")
-        match_path(["a"], "[a]")
-        match_path(['"a"'], '["a"]')
-        match_path(["'a'"], "['a']")
-        match_path(["0"], "0")
-
-        match_path(["a", "b"], "a.b")
-        match_path(["a", "0"], "a.0")
-
-        match_path(["*"], "*")
-        match_path(["*"], "[*]")
-        match_path(["a", "*"], "a.*")
-        match_path(["a", "*"], "a[*]")
-        match_path(["*", "a"], "*.a")
+        # quoted keys may contain anything but their own quote
+        self.assertEqual(((ITEM, "a].b"), (ATTR, "c")), parse_path('["a].b"].c'))
+        self.assertEqual(((ITEM, '"'),), parse_path("['\"']"))
+        self.assertEqual(((ITEM, '"'),), parse_path('["]'))
 
     def test_path_errors(self):
-        def bad_path(path):
-            self.assertFalse(path_regex.match(path))
+        bad_paths = [
+            "",
+            ".",
+            "[]",
+            "[ ]",
+            "[",
+            "]",
+            ".[",
+            ".]",
+            "..",
+            ".[]",
+            ".[a]",
+            ".[0]",
+            "0.",
+            "*.",
+            "*[",
+            "a b",
+        ]
+        for path in bad_paths:
+            with self.subTest(path=path), self.assertRaises(ValueError):
+                parse_path(path)
 
-        bad_path("")
-
-        bad_path(".")
-        bad_path("[]")
-
-        bad_path("[")
-        bad_path("]")
-        bad_path(".[")
-        bad_path(".]")
-
-        bad_path("..")
-        bad_path(".[]")
-        bad_path(".[a]")
-        bad_path(".[0]")
-
+        # validated up front, regardless of the data
         with self.assertRaises(ValueError):
-            pluckit([0], "0.")
-
+            pluckit([], "*.a.")
         with self.assertRaises(ValueError):
-            pluckit([], "*.")
-
-        with self.assertRaises(ValueError):
-            pluckit([], "[")
-
-        with self.assertRaises(ValueError):
-            pluckit([], "*[")
+            pluck([], "!!bad")
 
     def test_basic(self):
         data = [[1, 2], [3], 4]
@@ -203,6 +201,29 @@ class PluckPathTest(unittest.TestCase):
             values = "not a method"
 
         self.assertEqual([1, 2], pluckit(Row([1, 2]), "*"))
+
+    def test_quoted_keys(self):
+        self.assertEqual(1, pluckit({"a].b": {"c": 1}}, '["a].b"][c]'))
+        self.assertEqual(1, pluckit({'"': 1}, "['\"']"))
+
+    def test_whitespace(self):
+        self.assertEqual(1, pluckit([0, 1], "[ 1 ]"))
+        self.assertEqual([1, 2], pluckit([0, 1, 2], "[ 1:3 ]"))
+
+    def test_odd_equality(self):
+        # bare names must not depend on the object's __eq__
+        self.assertTrue(math.isnan(pluckit(float("nan"), "real")))
+
+        class Never:
+            x = 1
+
+            def __eq__(self, other):
+                return False
+
+        self.assertEqual(1, pluckit(Never(), "x"))
+
+    def test_wildcard_none(self):
+        self.assertEqual([None, 1], pluckit([None, [1]], "*[0]"))
 
     def test_slice(self):
         data = [0, 1, 2, 3]
