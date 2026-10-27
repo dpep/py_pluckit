@@ -27,6 +27,11 @@ class PluckPathTest(unittest.TestCase):
         self.assertEqual(((BARE, "a"), (STAR, None)), parse_path("a[*]"))
         self.assertEqual(((STAR, None), (ATTR, "a")), parse_path("*.a"))
 
+        # quoted keys may contain anything but their own quote
+        self.assertEqual(((ITEM, "a].b"), (ATTR, "c")), parse_path('["a].b"].c'))
+        self.assertEqual(((ITEM, '"'),), parse_path("['\"']"))
+        self.assertEqual(((ITEM, '"'),), parse_path('["]'))
+
     def test_path_errors(self):
         bad_paths = [
             "",
@@ -194,6 +199,10 @@ class PluckPathTest(unittest.TestCase):
             values = "not a method"
 
         self.assertEqual([1, 2], pluckit(Row([1, 2]), "*"))
+
+    def test_quoted_keys(self):
+        self.assertEqual(1, pluckit({"a].b": {"c": 1}}, '["a].b"][c]'))
+        self.assertEqual(1, pluckit({'"': 1}, "['\"']"))
 
     def test_odd_equality(self):
         # bare names must not depend on the object's __eq__
