@@ -1,4 +1,4 @@
-Unreleased
+v0.6.1, 2026-11-01
     requires Python >= 3.12
     packaging moved to pyproject.toml; `pip install pluckit[native]` pulls in forbiddenfruit
     `native.uninstall` skips types that were never installed instead of raising KeyError
